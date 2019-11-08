@@ -1,0 +1,193 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.4.243 Build 20190416
+
+Compiler options: -I./ -O2 -g -qopt-report=3 -D__DO_FLOAT__ -xAVX -imf-precisionlow -imf-domain-exclusion31 -D_VML_ACCURACY_EP_ -mkl -o black-scholes
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (main(int, char **)) [1] main.c(47,1)
+  -> EXTERN: (56,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (60,9) sscanf(const char *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (64,5) InitData(int, tfloat **, tfloat **, tfloat **, tfloat **, tfloat **, tfloat **, tfloat **)
+  -> INLINE: (67,15) get_time_sec()
+    -> EXTERN: (40,2) gettimeofday(struct timeval *__restrict__, __timezone_ptr_t)
+  -> EXTERN: (68,5) BlackScholesFormula_Compiler(int, tfloat, tfloat, tfloat *, tfloat *, tfloat *, tfloat *, tfloat *)
+  -> INLINE: (69,15) get_time_sec()
+    -> EXTERN: (40,2) gettimeofday(struct timeval *__restrict__, __timezone_ptr_t)
+  -> EXTERN: (72,5) BlackScholesFormula_MKL(int, tfloat, tfloat, tfloat *, tfloat *, tfloat *, tfloat *, tfloat *)
+  -> INLINE: (73,15) get_time_sec()
+    -> EXTERN: (40,2) gettimeofday(struct timeval *__restrict__, __timezone_ptr_t)
+  -> EXTERN: (81,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (82,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (83,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (84,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (90,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (91,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (92,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (95,5) FreeData(tfloat *, tfloat *, tfloat *, tfloat *, tfloat *, tfloat *, tfloat *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at main.c(77,5)
+<Peeled loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=7
+LOOP END
+
+LOOP BEGIN at main.c(77,5)
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 64 
+   remark #15477: vector cost: 10.000 
+   remark #15478: estimated potential speedup: 5.080 
+   remark #15486: divides: 2 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at main.c(77,5)
+<Remainder loop for vectorization>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 64 
+   remark #15477: vector cost: 10.000 
+   remark #15478: estimated potential speedup: 5.080 
+   remark #15486: divides: 2 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at main.c(77,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at main.c(86,5)
+<Peeled loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=7
+LOOP END
+
+LOOP BEGIN at main.c(86,5)
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 64 
+   remark #15477: vector cost: 10.000 
+   remark #15478: estimated potential speedup: 5.080 
+   remark #15486: divides: 2 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at main.c(86,5)
+<Remainder loop for vectorization>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 64 
+   remark #15477: vector cost: 10.000 
+   remark #15478: estimated potential speedup: 5.080 
+   remark #15486: divides: 2 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at main.c(86,5)
+<Remainder loop for vectorization>
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+main.c(47,1):remark #34051: REGISTER ALLOCATION : [main] main.c:47
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   28[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm13]
+        
+    Routine temporaries
+        Total         :     338
+            Global    :      70
+            Local     :     268
+        Regenerable   :      61
+        Spilled       :      10
+        
+    Routine stack
+        Variables     :      60 bytes*
+            Reads     :      19 [1.90e+01 ~ 2.3%]
+            Writes    :       2 [2.00e+00 ~ 0.2%]
+        Spills        :      40 bytes*
+            Reads     :       6 [6.00e+00 ~ 0.7%]
+            Writes    :       5 [5.00e+00 ~ 0.6%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: get_time_sec()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (get_time_sec()) [2] main.c(36,22)
+  -> EXTERN: (40,2) gettimeofday(struct timeval *__restrict__, __timezone_ptr_t)
+
+
+    Report from: Code generation optimizations [cg]
+
+main.c(36,22):remark #34051: REGISTER ALLOCATION : [get_time_sec] main.c:36
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    4[ rax rsi rdi zmm0]
+        
+    Routine temporaries
+        Total         :      14
+            Global    :       6
+            Local     :       8
+        Regenerable   :       3
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================

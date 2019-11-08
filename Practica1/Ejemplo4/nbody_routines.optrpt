@@ -1,0 +1,141 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.4.243 Build 20190416
+
+Compiler options: -I. -c -o nbody_routines.o -O2 -g -qopt-report=3 -xhost
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+
+Begin optimization report for: bodyForce(body *, float, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (bodyForce(body *, float, int)) [1] nbody_routines.c(4,42)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at nbody_routines.c(6,2)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at nbody_routines.c(10,3)
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 4 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 110 
+      remark #15477: vector cost: 13.620 
+      remark #15478: estimated potential speedup: 7.220 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at nbody_routines.c(10,3)
+   <Remainder loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at nbody_routines.c(29,3)
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 4 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 110 
+      remark #15477: vector cost: 13.620 
+      remark #15478: estimated potential speedup: 7.220 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at nbody_routines.c(29,3)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+nbody_routines.c(4,42):remark #34051: REGISTER ALLOCATION : [bodyForce] nbody_routines.c:4
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   30[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm15]
+        
+    Routine temporaries
+        Total         :     213
+            Global    :      68
+            Local     :     145
+        Regenerable   :       5
+        Spilled       :      11
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      88 bytes*
+            Reads     :      14 [4.27e+01 ~ 1.3%]
+            Writes    :      12 [8.73e+00 ~ 0.3%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: integrate(body *, float, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (integrate(body *, float, int)) [2] nbody_routines.c(50,41)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at nbody_routines.c(52,2)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between p->x[i] (53:3) and p->z[i] (55:3)
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+nbody_routines.c(50,41):remark #34051: REGISTER ALLOCATION : [integrate] nbody_routines.c:50
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   13[ rax rdx rcx rsi rdi r8-r11 zmm0-zmm3]
+        
+    Routine temporaries
+        Total         :      26
+            Global    :      16
+            Local     :      10
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
