@@ -1,5 +1,5 @@
-CC=gcc
-CFLAGS=-Wall -std=c99 -O3 -fopenmp
+CC=icc
+CFLAGS=-Wall -std=c99 -O3 -qopenmp -qopt-report=3
 
 LDFLAGS=-lm
 
