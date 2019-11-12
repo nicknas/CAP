@@ -47,8 +47,6 @@ static void init(unsigned int source_x, unsigned int source_y, float * matrix) {
 static void step(unsigned int source_x, unsigned int source_y, const float * current, float * next) {
 
 	for (unsigned int y = 1; y < N-1; ++y) {
-		#pragma ivdep
-		#pragma vector aligned
 		for (unsigned int x = 1; x < N-1; ++x) {
 			if ((y == source_y) && (x == source_x)) {
 				continue;
@@ -65,8 +63,6 @@ static void step(unsigned int source_x, unsigned int source_y, const float * cur
 static float diff(const float * current, const float * next) {
 	float maxdiff = 0.0f;
 	for (unsigned int y = 1; y < N-1; ++y) {
-		#pragma ivdep
-		#pragma vector aligned
 		for (unsigned int x = 1; x < N-1; ++x) {
 			maxdiff = fmaxf(maxdiff, fabsf(next[idx(x, y, N)] - current[idx(x, y, N)]));
 		}
@@ -81,8 +77,6 @@ void write_png(float * current, int iter) {
 	float maxval = fmaxf(SOURCE_TEMP, BOUNDARY_TEMP);
 
 	for (unsigned int y = 0; y < N; ++y) {
-		#pragma ivdep
-		#pragma vector aligned
 		for (unsigned int x = 0; x < N; ++x) {
 			unsigned int i = idx(x, y, N);
 			colormap_rgb(COLORMAP_MAGMA, current[i], 0.0f, maxval, &image[3*i], &image[3*i + 1], &image[3*i + 2]);
@@ -98,8 +92,8 @@ void write_png(float * current, int iter) {
 int main() {
 	size_t array_size = N * N * sizeof(float);
 
-	float * current = _mm_malloc(array_size, 32);
-	float * next = _mm_malloc(array_size, 32);
+	float * current = malloc(array_size);
+	float * next = malloc(array_size);
 
 	srand(0);
 	unsigned int source_x = rand() % (N-2) + 1;
@@ -112,7 +106,9 @@ int main() {
 	double start = omp_get_wtime();
 
 	float t_diff = SOURCE_TEMP;
-	for (unsigned int it = 0; (it < MAX_ITERATIONS) && (t_diff > MIN_DELTA); ++it) {
+	#pragma omp parallel for shared(t_diff, current, next)
+	for (unsigned int it = 0; it < MAX_ITERATIONS; ++it) {
+		if (t_diff <= MIN_DELTA) continue;
 		step(source_x, source_y, current, next);
 		t_diff = diff(current, next);
 		if(it%(MAX_ITERATIONS/10)==0){
@@ -128,8 +124,8 @@ int main() {
 
 	write_png(current, MAX_ITERATIONS);
 
-	_mm_free(current);
-	_mm_free(next);
+	free(current);
+	free(next);
 
 	return 0;
 }
