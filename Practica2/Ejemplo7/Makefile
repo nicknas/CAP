@@ -1,5 +1,5 @@
 CC=icc
-CFLAGS=-O3 -std=c99 -Wall -fopenmp
+CFLAGS=-O3 -std=c99 -Wall -qopenmp -qopt-reports=3
 LDFLAGS=
 
 TARGETS=demo headless
@@ -15,7 +15,7 @@ headless: headless.o $(COMMON_OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
-	rm -f $(TARGETS) *.o .depend *~
+	rm -f $(TARGETS) *.o .depend *~ *.optrpt
 
 .depend: *.[ch]
 	$(CC) -MM $(SOURCES) >.depend
