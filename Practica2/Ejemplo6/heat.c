@@ -47,6 +47,7 @@ static void init(unsigned int source_x, unsigned int source_y, float * matrix) {
 static void step(unsigned int source_x, unsigned int source_y, const float * current, float * next) {
 
 	for (unsigned int y = 1; y < N-1; ++y) {
+		#pragma ivdep
 		for (unsigned int x = 1; x < N-1; ++x) {
 			if ((y == source_y) && (x == source_x)) {
 				continue;
@@ -92,8 +93,8 @@ void write_png(float * current, int iter) {
 int main() {
 	size_t array_size = N * N * sizeof(float);
 
-	float * current = malloc(array_size);
-	float * next = malloc(array_size);
+	float * current = _mm_malloc(array_size, 32);
+	float * next = _mm_malloc(array_size, 32);
 
 	srand(0);
 	unsigned int source_x = rand() % (N-2) + 1;
@@ -124,8 +125,8 @@ int main() {
 
 	write_png(current, MAX_ITERATIONS);
 
-	free(current);
-	free(next);
+	_mm_free(current);
+	_mm_free(next);
 
 	return 0;
 }
