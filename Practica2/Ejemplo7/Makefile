@@ -1,5 +1,5 @@
 CC=icc
-CFLAGS=-O3 -std=c99 -Wall -qopenmp -qopt-reports=3
+CFLAGS=-O3 -std=c99 -Wall -qopenmp -qopt-report=3 -xhost
 LDFLAGS=
 
 TARGETS=demo headless

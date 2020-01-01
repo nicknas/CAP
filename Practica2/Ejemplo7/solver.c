@@ -31,15 +31,25 @@ static void set_bnd(unsigned int n, boundary b, float * x)
 
 static void lin_solve(unsigned int n, boundary b, float * x, const float * x0, float a, float c)
 {
+    #pragma omp parallel for
     for (unsigned int k = 0; k < 20; k++) {
+        #pragma omp simd
+        #pragma vector aligned
+        for (unsigned int i = 1; i <= n; i++) {  
+            for (unsigned int j = 1; j <= n; j+=2) {
+                float xres = x[IX(i, j - 1)] + x[IX(i - 1, j)];
+                xres += x[IX(i + 1, j)] + x[IX(i, j + 1)];
+                x[IX(i, j)] = (x0[IX(i, j)]+ a * xres) / c;
+            }
+        }
+        
+        #pragma omp simd
+        #pragma vector aligned
         for (unsigned int i = 1; i <= n; i++) {
-            #pragma vector always
-            #pragma vector aligned
-            for (unsigned int j = 1; j <= n; j++) {
-                x[IX(i, j)] = (x0[IX(i, j)] + a * (x[IX(i - 1, j)] +
-                                                   x[IX(i + 1, j)] +
-                                                   x[IX(i, j - 1)] +
-                                                   x[IX(i, j + 1)])) / c;
+            for (unsigned int j = 2; j <= n; j+=2) {
+                float xres = x[IX(i, j - 1)] + x[IX(i - 1, j)];
+                xres += x[IX(i + 1, j)] + x[IX(i, j + 1)];
+                x[IX(i, j)] = (x0[IX(i, j)]+ a * xres) / c;
             }
         }
         set_bnd(n, b, x);
@@ -58,6 +68,8 @@ static void advect(unsigned int n, boundary b, float * d, const float * d0, cons
     float x, y, s0, t0, s1, t1;
 
     float dt0 = dt * n;
+    #pragma omp simd
+    #pragma vector aligned
     for (unsigned int i = 1; i <= n; i++) {
         for (unsigned int j = 1; j <= n; j++) {
             x = i - dt0 * u[IX(i, j)];
@@ -89,6 +101,8 @@ static void advect(unsigned int n, boundary b, float * d, const float * d0, cons
 
 static void project(unsigned int n, float *u, float *v, float *p, float *div)
 {
+    #pragma omp simd
+    #pragma vector aligned
     for (unsigned int i = 1; i <= n; i++) {
         for (unsigned int j = 1; j <= n; j++) {
             div[IX(i, j)] = -0.5f * (u[IX(i + 1, j)] - u[IX(i - 1, j)] +
@@ -101,6 +115,8 @@ static void project(unsigned int n, float *u, float *v, float *p, float *div)
 
     lin_solve(n, NONE, p, div, 1, 4);
 
+    #pragma omp simd
+    #pragma vector aligned
     for (unsigned int i = 1; i <= n; i++) {
         for (unsigned int j = 1; j <= n; j++) {
             u[IX(i, j)] -= 0.5f * n * (p[IX(i + 1, j)] - p[IX(i - 1, j)]);
