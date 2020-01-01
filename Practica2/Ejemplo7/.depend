@@ -1,0 +1,4 @@
+demo.o: demo.c /usr/include/stdc-predef.h solver.h timing.h
+headless.o: headless.c /usr/include/stdc-predef.h timing.h
+solver.o: solver.c /usr/include/stdc-predef.h solver.h
+timing.o: timing.c /usr/include/stdc-predef.h timing.h

@@ -1,0 +1,268 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.5.281 Build 20190815
+
+Compiler options: -O3 -std=c99 -Wall -qopenmp -qopt-report=3 -xhost -c -o headless.o
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (main(int, char **)) [1] headless.c(162,1)
+  -> EXTERN: (166,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (167,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (168,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (169,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (170,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (171,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (172,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (173,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (174,3) exit(int)
+  -> EXTERN: (184,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> INLINE (MANUAL): (187,7) atoi(const char *)
+    -> EXTERN: /usr/include/stdlib.h:(363,16) strtol(const char *__restrict__, char **__restrict__, int)
+  -> INLINE (MANUAL): (188,8) atof(const char *)
+    -> EXTERN: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:(27,10) strtod(const char *__restrict__, char **__restrict__)
+  -> INLINE (MANUAL): (189,10) atof(const char *)
+    -> EXTERN: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:(27,10) strtod(const char *__restrict__, char **__restrict__)
+  -> INLINE (MANUAL): (190,10) atof(const char *)
+    -> EXTERN: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:(27,10) strtod(const char *__restrict__, char **__restrict__)
+  -> INLINE (MANUAL): (191,11) atof(const char *)
+    -> EXTERN: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:(27,10) strtod(const char *__restrict__, char **__restrict__)
+  -> INLINE (MANUAL): (192,12) atof(const char *)
+    -> EXTERN: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:(27,10) strtod(const char *__restrict__, char **__restrict__)
+  -> INLINE: (195,8) allocate_data(void)
+    -> EXTERN: (71,17) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (72,17) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (73,22) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (74,22) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (75,20) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (76,24) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (79,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (195,27) exit(int)
+  -> INLINE: (196,2) clear_data(void)
+  -> EXTERN: (197,12) wtime(void)
+  -> INLINE: (199,3) one_step(void)
+    -> EXTERN: (128,12) wtime(void)
+    -> INLINE: (129,2) react(float *, float *, float *)
+    -> EXTERN: (130,30) wtime(void)
+    -> EXTERN: (132,12) wtime(void)
+    -> EXTERN: (133,2) vel_step(int, float *, float *, float *, float *, float, float)
+    -> EXTERN: (134,28) wtime(void)
+    -> EXTERN: (136,12) wtime(void)
+    -> EXTERN: (137,2) dens_step(int, float *, float *, float *, float *, float, float)
+    -> EXTERN: (138,29) wtime(void)
+    -> EXTERN: (140,10) wtime(void)
+    -> EXTERN: (141,3) printf(const char *__restrict__, ...)
+    -> EXTERN: (144,16) wtime(void)
+  -> EXTERN: (200,12) wtime(void)
+  -> EXTERN: (201,2) printf(const char *__restrict__, ...)
+  -> INLINE: (202,2) free_data(void)
+    -> EXTERN: (50,11) _mm_free(void *)
+    -> EXTERN: (51,11) _mm_free(void *)
+    -> EXTERN: (52,16) _mm_free(void *)
+    -> EXTERN: (53,16) _mm_free(void *)
+    -> EXTERN: (54,14) _mm_free(void *)
+    -> EXTERN: (55,19) _mm_free(void *)
+  -> EXTERN: (204,2) exit(int)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at headless.c(62,2) inlined into headless.c(196,2)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (2 way) 
+   remark #15301: PARTIAL LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 7 
+   remark #15477: vector cost: 1.000 
+   remark #15478: estimated potential speedup: 5.600 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at headless.c(62,2) inlined into headless.c(196,2)
+<Remainder loop for vectorization, Distributed chunk1>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15451: unmasked unaligned unit stride stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 14 
+   remark #15477: vector cost: 2.250 
+   remark #15478: estimated potential speedup: 5.020 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at headless.c(62,2) inlined into headless.c(196,2)
+<Remainder loop for vectorization, Distributed chunk1>
+LOOP END
+
+LOOP BEGIN at headless.c(62,2) inlined into headless.c(196,2)
+<Peeled loop for vectorization, Distributed chunk2>
+   remark #25015: Estimate of max trip count of loop=7
+LOOP END
+
+LOOP BEGIN at headless.c(62,2) inlined into headless.c(196,2)
+<Distributed chunk2>
+   remark #15301: PARTIAL LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15451: unmasked unaligned unit stride stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 14 
+   remark #15477: vector cost: 2.250 
+   remark #15478: estimated potential speedup: 5.020 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at headless.c(62,2) inlined into headless.c(196,2)
+<Remainder loop for vectorization, Distributed chunk2>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15451: unmasked unaligned unit stride stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 14 
+   remark #15477: vector cost: 2.250 
+   remark #15478: estimated potential speedup: 5.020 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at headless.c(62,2) inlined into headless.c(196,2)
+<Remainder loop for vectorization, Distributed chunk2>
+LOOP END
+
+LOOP BEGIN at headless.c(198,7)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at headless.c(95,2) inlined into headless.c(199,3)
+   <Peeled loop for vectorization>
+      remark #25015: Estimate of max trip count of loop=7
+   LOOP END
+
+   LOOP BEGIN at headless.c(95,2) inlined into headless.c(199,3)
+      remark #25045: Fused Loops: ( 95 104 )
+
+      remark #25427: Loop Statements Reordered
+      remark #15301: FUSED LOOP WAS VECTORIZED
+      remark #15442: entire loop may be executed in remainder
+      remark #15450: unmasked unaligned unit stride loads: 3 
+      remark #15451: unmasked unaligned unit stride stores: 3 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 36 
+      remark #15477: vector cost: 3.870 
+      remark #15478: estimated potential speedup: 6.660 
+      remark #15488: --- end vector cost summary ---
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 2
+   LOOP END
+
+   LOOP BEGIN at headless.c(104,2) inlined into headless.c(199,3)
+      remark #25046: Loop lost in Fusion 
+   LOOP END
+
+   LOOP BEGIN at headless.c(95,2) inlined into headless.c(199,3)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+headless.c(162,1):remark #34051: REGISTER ALLOCATION : [main] headless.c:162
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   26[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm11]
+        
+    Routine temporaries
+        Total         :     382
+            Global    :     130
+            Local     :     252
+        Regenerable   :      75
+        Spilled       :       6
+        
+    Routine stack
+        Variables     :       4 bytes*
+            Reads     :       2 [0.00e+00 ~ 0.0%]
+            Writes    :       2 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       1 [1.97e-02 ~ 0.0%]
+            Writes    :       1 [1.97e-02 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: atoi(const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+NEVER EMIT DEFINITION FUNCTION: (atoi(const char *))/usr/include/stdlib.h(362,1)
+
+===========================================================================
+
+Begin optimization report for: atof(const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+NEVER EMIT DEFINITION FUNCTION: (atof(const char *))/usr/include/x86_64-linux-gnu/bits/stdlib-float.h(26,1)
+
+===========================================================================
+
+Begin optimization report for: free_data(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (free_data(void)) headless.c(49,1)
+
+===========================================================================
+
+Begin optimization report for: clear_data(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (clear_data(void)) headless.c(59,1)
+
+===========================================================================
+
+Begin optimization report for: allocate_data(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (allocate_data(void)) headless.c(68,1)
+
+===========================================================================
+
+Begin optimization report for: one_step(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (one_step(void)) headless.c(120,1)
+
+===========================================================================
+
+Begin optimization report for: react(float *, float *, float *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (react(float *, float *, float *)) headless.c(89,1)
+
+===========================================================================
