@@ -65,8 +65,10 @@ int main(int argc, char** argv)
 	while ( error > tol && iter < iter_max )
 	{
 		error = 0.0;
+		#pragma acc kernels loop independent
 		for( int j = 1; j < n-1; j++)
 		{
+			#pragma acc loop seq
 			for( int i = 1; i < m-1; i++ )
 			{
 				Anew[j*m+i] = 0.25 * ( A[j*m+i+1] + A[j*m+i-1]
@@ -74,6 +76,7 @@ int main(int argc, char** argv)
 				error = MAX( error, fabs(Anew[j*m+i] - A[j*m+i]));
 			}
 		}
+
 
 		for( int j = 1; j < n-1; j++)
 		{
