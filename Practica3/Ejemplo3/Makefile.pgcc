@@ -1,0 +1,57 @@
+#
+# Makefile
+#
+
+
+# ------------------------------+
+# Definicion de los directorios |
+# ------------------------------+
+
+BIN_DIR     = ./bin
+SRC_DIR     = ./src
+OBJ_DIR	    = ./obj
+INCLUDE_DIR = ./include
+
+
+# ---------------------------------
+# Opciones de Compilacion 
+# ---------------------------------
+
+
+# 
+# ---------------------------------
+OPT = -O3 -fopenmp
+
+CFLAGS =  -I$(INCLUDE_DIR) $(DEBUG)
+# ----------------------------------------------
+#  Librerias , Programa principal y compilador
+# ----------------------------------------------
+CC              = pgcc -Minfo -fast -acc -ta=nvidia -tp=nehalem
+LIBRARY         = -lm -lpng
+
+
+#-----------------------+
+# Archivos del proyecto |
+#-----------------------+
+COBJECTS = 	$(SRC_DIR)/io.o \
+	        $(SRC_DIR)/pngio.o \
+		$(SRC_DIR)/lucaskanade.o
+
+#------------------------
+#  Reglas de compilacion
+#------------------------
+.c.o: $(COBJECTS)
+	$(CC) $(CFLAGS)  -c -o $@ $*.c
+	@cp $@ $(OBJ_DIR)
+	
+#--------------------
+#  Dependencias
+#--------------------
+pgi: $(COBJECTS)
+	$(CC) $(CFLAGS) -o lk.pgi.exe  $(OBJ_DIR)/*.o  $(LIBRARY)
+	@mv lk.pgi.exe ./bin 
+
+clean: 
+	@rm -f $(OBJ_DIR)/*.o
+	@rm -f $(COBJECTS)
+

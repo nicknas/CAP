@@ -1,4 +1,5 @@
-demo.o: demo.c /usr/include/stdc-predef.h solver.h timing.h
-headless.o: headless.c /usr/include/stdc-predef.h timing.h
-solver.o: solver.c /usr/include/stdc-predef.h solver.h
-timing.o: timing.c /usr/include/stdc-predef.h timing.h
+demo.c
+demo.c(19): catastrophic error: cannot open source file "GL/glut.h"
+  #include <GL/glut.h>
+                      ^
+

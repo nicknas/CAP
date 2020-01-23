@@ -302,6 +302,7 @@ static void idle_func ( void )
 		react_ns_p_cell = 0.0;
 		vel_ns_p_cell = 0.0;
 		dens_ns_p_cell = 0.0;
+		#pragma warning(disable:4996)
 		sprintf(title, "Time: %4.1lf ns per cell", ns_p_cell/times);
 		times = 1;
 	} else {
